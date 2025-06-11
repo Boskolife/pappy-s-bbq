@@ -3,8 +3,10 @@ let isModalOpen = false;
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     document.getElementById('header').classList.add('show');
+  }, 2000);
+  setTimeout(() => {
+    document.getElementById('main_title').classList.add('show');
   }, 1000);
-  document.getElementById('main_title').classList.add('show');
   initScroll();
   initHeaderObserver();
   initTextAnimation();
