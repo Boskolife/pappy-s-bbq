@@ -1,7 +1,9 @@
 let isModalOpen = false;
 
 window.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('header').classList.add('show');
+  setTimeout(() => {
+    document.getElementById('header').classList.add('show');
+  }, 1000);
   document.getElementById('main_title').classList.add('show');
   initScroll();
   initHeaderObserver();
