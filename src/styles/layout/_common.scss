@@ -116,6 +116,15 @@ body {
         z-index: -2;
     }
 
+    .tip_wrap {
+        opacity: 0;
+
+        &.show {
+            opacity: 1;
+            transition: all 1s linear;
+        }
+    }
+
     .table {
         max-width: 690px;
         width: calc(100% - 60px);

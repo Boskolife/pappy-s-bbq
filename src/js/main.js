@@ -3,10 +3,13 @@ let isModalOpen = false;
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     document.getElementById('header').classList.add('show');
-  }, 2000);
+  }, 1500);
   setTimeout(() => {
     document.getElementById('main_title').classList.add('show');
   }, 1000);
+  setTimeout(() => {
+    document.getElementById('tip').classList.add('show');
+  }, 800);
   initScroll();
   initHeaderObserver();
   initTextAnimation();
