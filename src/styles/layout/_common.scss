@@ -444,11 +444,19 @@ body {
                 max-width: 77px;
                 width: 100%;
                 margin: 0;
+
+                @include media ("<tablet") {
+                    max-width: 55px;
+                }
             }
 
             &:nth-child(2) {
                 max-width: 100px;
                 width: 100%;
+
+                @include media ("<tablet") {
+                    max-width: 72px;
+                }
             }
         }
     }

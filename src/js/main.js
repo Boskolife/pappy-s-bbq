@@ -20,6 +20,8 @@ function initScroll() {
   const blocks = document.querySelectorAll('.scroll_block');
   let currentIndex = 0;
   let isScrolling = false;
+  let touchStartY = 0;
+  let touchEndY = 0;
 
   const scrollToBlock = (index) => {
     if (index < 0 || index >= blocks.length || isScrolling) return;
@@ -41,14 +43,11 @@ function initScroll() {
     scrollToBlock(currentIndex);
   };
 
+  // Обработка колесика мыши
   window.addEventListener(
     'wheel',
     (e) => {
-      if (isModalOpen) {
-        e.preventDefault();
-        return;
-      }
-      if (isScrolling) {
+      if (isModalOpen || isScrolling) {
         e.preventDefault();
         return;
       }
@@ -57,10 +56,28 @@ function initScroll() {
     { passive: false },
   );
 
+  // Обработка клавиш
   window.addEventListener('keydown', (e) => {
     if (isModalOpen) return;
     if (e.key === 'ArrowDown') updateIndex(1);
     if (e.key === 'ArrowUp') updateIndex(-1);
+  });
+
+  // Обработка touch
+  window.addEventListener('touchstart', (e) => {
+    touchStartY = e.changedTouches[0].clientY;
+  });
+
+  window.addEventListener('touchend', (e) => {
+    if (isModalOpen || isScrolling) return;
+
+    touchEndY = e.changedTouches[0].clientY;
+    const deltaY = touchStartY - touchEndY;
+
+    // Учитываем чувствительность свайпа
+    if (Math.abs(deltaY) > 50) {
+      updateIndex(deltaY > 0 ? 1 : -1);
+    }
   });
 }
 
