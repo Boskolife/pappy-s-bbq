@@ -1,112 +1,124 @@
+let isModalOpen = false;
+
 window.addEventListener('DOMContentLoaded', () => {
-  const header = document.getElementById('header');
-  const mainTitle = document.getElementById('main_title');
-  setTimeout(() => {
-    header.classList.add('show');
-  }, 1000);
-  mainTitle.classList.add('show');
+  document.getElementById('header').classList.add('show');
+  document.getElementById('main_title').classList.add('show');
+  initScroll();
+  initHeaderObserver();
+  initTextAnimation();
+  initFormModal();
 });
 
-const blocks = document.querySelectorAll('.scroll_block');
-let currentIndex = 0;
-let isScrolling = false;
+function initScroll() {
+  const blocks = document.querySelectorAll('.scroll_block');
+  let currentIndex = 0;
+  let isScrolling = false;
 
-function scrollToBlock(index) {
-  if (index < 0 || index >= blocks.length) return;
+  const scrollToBlock = (index) => {
+    if (index < 0 || index >= blocks.length || isScrolling) return;
 
-  isScrolling = true;
-  const block = blocks[index];
-  const isSecondBlock = block.classList.contains('second_block');
+    isScrolling = true;
+    blocks[index].scrollIntoView({
+      behavior: 'smooth',
+      block: blocks[index].classList.contains('second_block') ? 'end' : 'start',
+    });
 
-  block.scrollIntoView({
-    behavior: 'smooth',
-    block: isSecondBlock ? 'end' : 'start',
+    setTimeout(() => (isScrolling = false), 1000);
+  };
+
+  const updateIndex = (delta) => {
+    currentIndex = Math.max(
+      0,
+      Math.min(currentIndex + delta, blocks.length - 1),
+    );
+    scrollToBlock(currentIndex);
+  };
+
+  window.addEventListener(
+    'wheel',
+    (e) => {
+      if (isModalOpen) {
+        e.preventDefault();
+        return;
+      }
+      if (isScrolling) {
+        e.preventDefault();
+        return;
+      }
+      updateIndex(e.deltaY > 0 ? 1 : -1);
+    },
+    { passive: false },
+  );
+
+  window.addEventListener('keydown', (e) => {
+    if (isModalOpen) return;
+    if (e.key === 'ArrowDown') updateIndex(1);
+    if (e.key === 'ArrowUp') updateIndex(-1);
   });
-
-  setTimeout(() => {
-    isScrolling = false;
-  }, 1000);
 }
 
-window.addEventListener('wheel', (e) => {
-  if (isScrolling) return;
+function initHeaderObserver() {
+  const headerPin = document.querySelector('.header_pinned');
+  const blocks = document.querySelectorAll('.scroll_block');
+  const lastBlock = document.querySelector('.footer_block');
 
-  if (e.deltaY > 0) {
-    currentIndex++;
-  } else {
-    currentIndex--;
-  }
+  const scrollObserver = new IntersectionObserver(
+    (entries) => {
+      let isLastBlockVisible = false;
+      let anyBlockVisible = false;
 
-  currentIndex = Math.max(0, Math.min(currentIndex, blocks.length - 1));
-  scrollToBlock(currentIndex);
-});
+      entries.forEach((entry) => {
+        if (entry.target === lastBlock && entry.isIntersecting) {
+          isLastBlockVisible = true;
+        }
+        if (entry.isIntersecting && entry.target !== lastBlock) {
+          anyBlockVisible = true;
+        }
+      });
 
-window.addEventListener('keydown', (e) => {
-  if (isScrolling) return;
-  if (e.key === 'ArrowDown') {
-    currentIndex = Math.min(currentIndex + 1, blocks.length - 1);
-    scrollToBlock(currentIndex);
-  }
-  if (e.key === 'ArrowUp') {
-    currentIndex = Math.max(currentIndex - 1, 0);
-    scrollToBlock(currentIndex);
-  }
-});
-
-const headerPin = document.querySelector('.header_pinned');
-const scrollBlocks = document.querySelectorAll('.scroll_block');
-const blocksToTrack = Array.from(scrollBlocks).slice(2);
-
-const observer = new IntersectionObserver(
-  (entries) => {
-    const anyVisible = entries.some((entry) => entry.isIntersecting);
-
-    if (anyVisible) {
-      setTimeout(() => {
+      if (isLastBlockVisible) {
+        headerPin.classList.remove('active');
+      } else if (anyBlockVisible) {
         headerPin.classList.add('active');
-      }, 1000);
-      headerPin.classList.remove('show');
-    } else {
-      headerPin.classList.remove('active');
-      headerPin.classList.add('show');
-    }
-  },
-  {
-    threshold: 0.5,
-  },
-);
-
-blocksToTrack.forEach((block) => observer.observe(block));
-
-const textElements = document.querySelectorAll('.text_content');
-
-const textObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-      } else {
-        entry.target.classList.remove('in-view');
       }
-    });
-  },
-  {
-    threshold: 0.5,
-  },
-);
+    },
+    { threshold: 0.8 },
+  );
 
-textElements.forEach((el) => textObserver.observe(el));
-openFormModal();
-function openFormModal() {
+  const blocksToTrack = Array.from(blocks).slice(2);
+  blocksToTrack.forEach((block) => scrollObserver.observe(block));
+
+  if (lastBlock) scrollObserver.observe(lastBlock);
+}
+
+function initTextAnimation() {
+  const textElements = document.querySelectorAll('.text_content');
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        entry.target.classList.toggle('in-view', entry.isIntersecting);
+      });
+    },
+    { threshold: 0.5 },
+  );
+
+  textElements.forEach((el) => observer.observe(el));
+}
+
+function initFormModal() {
   const openModalBtn = document.getElementById('openFormModal');
   const formModal = document.querySelector('.form_modal');
   const closeBtn = formModal.querySelector('.close');
 
   openModalBtn.addEventListener('click', () => {
     formModal.classList.add('show');
+    document.body.classList.add('body_lock');
+    isModalOpen = true;
   });
 
   closeBtn.addEventListener('click', () => {
     formModal.classList.remove('show');
+    document.body.classList.remove('body_lock');
+    isModalOpen = false;
   });
 }
