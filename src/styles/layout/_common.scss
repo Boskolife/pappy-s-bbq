@@ -65,8 +65,7 @@ body {
 }
 
 .scroll_block {
-    height: 100%;
-    scroll-snap-align: start;
+    height: 100dvh;
     position: relative;
 
     h1 {

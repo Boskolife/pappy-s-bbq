@@ -43,7 +43,6 @@ function initScroll() {
     scrollToBlock(currentIndex);
   };
 
-  // Обработка колесика мыши
   window.addEventListener(
     'wheel',
     (e) => {
@@ -56,14 +55,12 @@ function initScroll() {
     { passive: false },
   );
 
-  // Обработка клавиш
   window.addEventListener('keydown', (e) => {
     if (isModalOpen) return;
     if (e.key === 'ArrowDown') updateIndex(1);
     if (e.key === 'ArrowUp') updateIndex(-1);
   });
 
-  // Обработка touch
   window.addEventListener('touchstart', (e) => {
     touchStartY = e.changedTouches[0].clientY;
   });
@@ -74,7 +71,6 @@ function initScroll() {
     touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY - touchEndY;
 
-    // Учитываем чувствительность свайпа
     if (Math.abs(deltaY) > 50) {
       updateIndex(deltaY > 0 ? 1 : -1);
     }
