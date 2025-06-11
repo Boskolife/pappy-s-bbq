@@ -1,0 +1,75 @@
+// Typography
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6,
+.h {
+    font-weight: bold;
+    margin: 0;
+    color: $headings-color;
+    text-transform: uppercase;
+    text-align: center
+}
+
+h1,
+.h1 {
+    @include adaptive-value("font-size", 100, 42, 1);
+}
+
+h2,
+.h2 {
+    @include adaptive-value("font-size", 82, 42, 1);
+}
+
+h3,
+.h3 {
+    @include adaptive-value("font-size", 70, 30, 1);
+}
+
+h4,
+.h4 {
+    @include adaptive-value("font-size", 46, 22, 1);
+}
+
+h5,
+.h5 {
+    @include adaptive-value("font-size", 32, 26, 1);
+}
+
+h6,
+.h6 {
+    font-size: $h6-font-size;
+}
+
+p {
+    margin: 0;
+}
+
+a {
+    color: $base-link-color;
+    text-decoration: none;
+    transition: color .3s ease;
+
+    &:hover,
+    &:focus {
+        text-decoration: none;
+    }
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+
+    li {
+        list-style: none;
+    }
+}

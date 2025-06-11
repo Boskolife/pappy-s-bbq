@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pappy`s BBQ</title>
+  <link rel="stylesheet" href="/styles/main.scss">
+  <script type="module" src="/js/main.js" defer></script>
+</head>
+
+<body>
+  {{> header }}
+  <main>
+    <section class="main">
+      <div class="header_pinned" id="header_pinned">
+        <div class="logo">
+          <img src="./images/logo_1.svg" alt="logo">
+          <img src="./images/logo_2.svg" alt="logo">
+        </div>
+        <a href="#" class="primary_btn">Join us</a>
+      </div>
+      <!-- <div class="scroll_block first_block">
+        <div class="scroll_block_content">
+          <div class="header_content" id="header">
+            <div class="social">
+              <a href="#" target="_blank" class="social_link">
+                <img src="/images/Instagram.svg" alt="Instagram">
+              </a>
+              <a href="#" target="_blank" class="social_link">
+                <img src="/images/TikTok.svg" alt="TikTok">
+              </a>
+              <a href="#" target="_blank" class="social_link">
+                <img src="/images/Whatsapp.svg" alt="Whatsapp">
+              </a>
+            </div>
+            <div class="logo">
+              <img src="./images/logo_1.svg" alt="logo">
+              <img src="./images/logo_2.svg" alt="logo">
+            </div>
+            <a href="#" class="primary_btn">Join us</a>
+          </div>
+          <img class="scroll_block_bg" src="./images/img_1.png" alt="image not found">
+          <h1 id="main_title">Noches de Jack at Pappy’s BBQ</h1>
+          <div class="tip_wrap">
+            <div class="divider"></div>
+            <span>Discover the Story</span>
+          </div>
+        </div>
+      </div>
+      <div class="scroll_block second_block other_block">
+        <h2 class="text_content">Meat, Fire, <br> Friends… <br> and a story you can feel.</h2>
+        <div class="divider"></div>
+      </div>
+      <div class="scroll_block third_block other_block">
+        <img class="scroll_block_bg" src="./images/img_2.png" alt="image not found">
+        <img class="inner_img" src="./images/test_img.png" alt="image not found">
+        <div class="divider"></div>
+      </div>
+      <div class="scroll_block other_block">
+        <h3 class="text_content">It started with...</h3>
+        <img class="scroll_block_bg" src="./images/img_3.png" alt="image not found">
+        <div class="divider"></div>
+      </div>
+      <div class="scroll_block other_block">
+        <h3 class="text_content">one pit....</h3>
+        <img class="scroll_block_bg" src="./images/img_4.png" alt="image not found">
+        <div class="divider"></div>
+      </div>
+      <div class="scroll_block other_block">
+        <h3 class="text_content">one brisket...</h3>
+        <img class="scroll_block_bg" src="./images/img_5.png" alt="image not found">
+        <div class="divider"></div>
+      </div>
+      <div class="scroll_block other_block">
+        <h3 class="text_content">and one stubborn idea.</h3>
+        <img class="scroll_block_bg" src="./images/img_6.png" alt="image not found">
+        <div class="divider"></div>
+      </div>
+      <div class="scroll_block other_block">
+        <h4 class="text_content">Uncover the roots of Pappy’s BBQ and its striking parallels to the
+          legendary origin of
+          Jack Daniel’s.</h4>
+        <img class="scroll_block_bg" src="./images/img_7.png" alt="image not found">
+        <div class="divider"></div>
+      </div> -->
+      <div class="scroll_block last_block other_block">
+        <img class="scroll_block_bg" src="./images/img_8.png" alt="image not found">
+        <img class="table" src="./images/table.webp" alt="image not found">
+        <button class="primary_btn" id="openFormModal">Reserve Your Table Now</button>
+      </div>
+    </section>
+    <div class="form_modal">
+      <img class="form_bg" src="./images/form_bg.webp" alt="image not found">
+      <button class="close" aria-label="Close"></button>
+      <h5>Reserve Your Table Now</h5>
+      <form action="#">
+        <div class="input_wrap">
+          <label for="first_name">Name*</label>
+          <input type="text" id="first_name" name="first_name" placeholder="Enter your first name"
+            required>
+        </div>
+
+        <div class="input_wrap">
+          <label for="last_name">Last Name*</label>
+          <input type="text" id="last_name" name="last_name" placeholder="Enter your last name"
+            required>
+        </div>
+
+        <div class="input_wrap">
+          <label for="email">Email*</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+
+        <div class="input_wrap">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" placeholder="Enter your phone (optional)">
+        </div>
+
+        <button type="submit" class="primary_btn">Reserve Table</button>
+      </form>
+    </div>
+  </main>
+</body>
+
+</html>
