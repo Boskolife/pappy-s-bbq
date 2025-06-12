@@ -7,10 +7,10 @@ html {
     scrollbar-width: none;
 }
 
-html,
-body {
-    overflow: hidden;
-}
+// html,
+// body {
+//     overflow: hidden;
+// }
 
 .body_lock {
     overflow: hidden;
@@ -59,7 +59,7 @@ body {
     &.show {
         opacity: 1;
         scale: 1;
-        transition: all 1s ease;
+        transition: all 2s ease;
     }
 
 }
@@ -102,7 +102,7 @@ body {
         &.in-view {
             opacity: 1;
             scale: 1;
-            transition: all 1s ease;
+            transition: all 2s ease;
         }
     }
 
@@ -625,3 +625,25 @@ body {
         width: 100%;
     }
 }
+
+// .scroll_block_content,
+// .scroll_block h2,
+// .scroll_block h3,
+// .scroll_block h4,
+// .scroll_block video,
+// .scroll_block img {
+//     opacity: 0;
+//     transform: translateY(40px);
+//     transition: opacity 1s ease, transform 1s ease;
+//     will-change: opacity, transform;
+// }
+
+// .scroll_block.active .scroll_block_content,
+// .scroll_block.active h2,
+// .scroll_block.active h3,
+// .scroll_block.active h4,
+// .scroll_block.active video,
+// .scroll_block.active img {
+//     opacity: 1;
+//     transform: translateY(0);
+// }
