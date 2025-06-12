@@ -14,6 +14,7 @@ window.addEventListener('DOMContentLoaded', () => {
   initHeaderObserver();
   initTextAnimation();
   initFormModal();
+  initVideoObserver();
 });
 
 function initScroll() {
@@ -82,25 +83,31 @@ function initHeaderObserver() {
   const blocks = document.querySelectorAll('.scroll_block');
   const lastBlock = document.querySelector('.footer_block');
 
+  const visibleBlocks = new Set();
+
   const scrollObserver = new IntersectionObserver(
     (entries) => {
-      let isLastBlockVisible = false;
-      let anyBlockVisible = false;
-
       entries.forEach((entry) => {
-        if (entry.target === lastBlock && entry.isIntersecting) {
-          isLastBlockVisible = true;
-        }
-        if (entry.isIntersecting && entry.target !== lastBlock) {
-          anyBlockVisible = true;
+        if (entry.target === lastBlock) {
+          if (entry.isIntersecting) {
+            headerPin.classList.remove('active');
+          } else if (visibleBlocks.size > 0) {
+            headerPin.classList.add('active');
+          }
+        } else {
+          if (entry.isIntersecting) {
+            visibleBlocks.add(entry.target);
+          } else {
+            visibleBlocks.delete(entry.target);
+          }
+
+          if (visibleBlocks.size > 0 && !lastBlock?.isIntersecting) {
+            headerPin.classList.add('active');
+          } else {
+            headerPin.classList.remove('active');
+          }
         }
       });
-
-      if (isLastBlockVisible) {
-        headerPin.classList.remove('active');
-      } else if (anyBlockVisible) {
-        headerPin.classList.add('active');
-      }
     },
     { threshold: 0.8 },
   );
@@ -140,5 +147,34 @@ function initFormModal() {
     formModal.classList.remove('show');
     document.body.classList.remove('body_lock');
     isModalOpen = false;
+  });
+}
+
+function initVideoObserver() {
+  const videoBlocks = document.querySelectorAll('.scroll_block');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const video = entry.target.querySelector('video');
+
+        if (video) {
+          if (entry.isIntersecting) {
+            video.classList.add('entry');
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+            video.currentTime = 0;
+          }
+        }
+      });
+    },
+    { threshold: 0.6 },
+  );
+
+  videoBlocks.forEach((block) => {
+    if (block.querySelector('video')) {
+      observer.observe(block);
+    }
   });
 }

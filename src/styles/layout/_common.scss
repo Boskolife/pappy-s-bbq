@@ -113,6 +113,24 @@ body {
         height: 100%;
         object-fit: cover;
         z-index: -2;
+
+        @include media ("<phone") {
+            display: none;
+        }
+    }
+
+    .video_mob {
+        display: none;
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -2;
+
+        @include media ("<phone") {
+            display: block;
+        }
     }
 
     .tip_wrap {
@@ -231,10 +249,18 @@ body {
 }
 
 .third_block {
-    .inner_img {
+    .inner_video {
         max-width: 448px;
         width: calc(100% - 60px);
         margin: auto;
+        opacity: 0;
+        scale: 0;
+
+        &.entry {
+            opacity: 1;
+            scale: 1;
+            transition: all 1s ease-in;
+        }
     }
 }
 
