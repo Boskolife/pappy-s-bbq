@@ -51,6 +51,7 @@ function initScroll() {
 
     const targetBlock = blocks[index];
 
+    // Смещение в зависимости от класса
     const offset = targetBlock.classList.contains('second_block')
       ? targetBlock.getBoundingClientRect().bottom - window.innerHeight
       : targetBlock.getBoundingClientRect().top;
@@ -60,14 +61,11 @@ function initScroll() {
     const distance = targetY - startY;
     const startTime = performance.now();
 
-    const easeInOutQuad = (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
-
     const animateScroll = (currentTime) => {
       const timeElapsed = currentTime - startTime;
       const progress = Math.min(timeElapsed / duration, 1);
-      const ease = easeInOutQuad(progress);
 
-      window.scrollTo(0, startY + distance * ease);
+      window.scrollTo(0, startY + distance * progress); // Линейное движение
 
       if (progress < 1) {
         requestAnimationFrame(animateScroll);
