@@ -17,6 +17,14 @@ window.addEventListener('DOMContentLoaded', () => {
   initVideoObserver();
 });
 
+window.addEventListener('resize', () => {
+  initScroll();
+  initHeaderObserver();
+  initTextAnimation();
+  initFormModal();
+  initVideoObserver();
+});
+
 function initScroll() {
   const blocks = document.querySelectorAll('.scroll_block');
   let currentIndex = 0;
