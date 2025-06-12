@@ -32,17 +32,59 @@ function initScroll() {
   let touchStartY = 0;
   let touchEndY = 0;
 
-  const scrollToBlock = (index) => {
+  // const scrollToBlock = (index) => {
+  //   if (index < 0 || index >= blocks.length || isScrolling) return;
+
+  //   isScrolling = true;
+  //   blocks[index].scrollIntoView({
+  //     behavior: 'smooth',
+  //     block: blocks[index].classList.contains('second_block') ? 'end' : 'start',
+  //   });
+
+  //   setTimeout(() => (isScrolling = false), 1000);
+  // };
+
+  const scrollToBlock = (index, duration = 1000) => {
     if (index < 0 || index >= blocks.length || isScrolling) return;
 
     isScrolling = true;
-    blocks[index].scrollIntoView({
-      behavior: 'smooth',
-      block: blocks[index].classList.contains('second_block') ? 'end' : 'start',
-    });
 
-    setTimeout(() => (isScrolling = false), 1000);
+    const targetBlock = blocks[index];
+
+    const offset = targetBlock.classList.contains('second_block')
+      ? targetBlock.getBoundingClientRect().bottom - window.innerHeight
+      : targetBlock.getBoundingClientRect().top;
+
+    const targetY = window.pageYOffset + offset;
+    const startY = window.pageYOffset;
+    const distance = targetY - startY;
+    const startTime = performance.now();
+
+    const easeInOutQuad = (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
+
+    const animateScroll = (currentTime) => {
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / duration, 1);
+      const ease = easeInOutQuad(progress);
+
+      window.scrollTo(0, startY + distance * ease);
+
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll);
+      } else {
+        isScrolling = false;
+      }
+    };
+
+    requestAnimationFrame(animateScroll);
   };
+
+  scrollToBlock(0, 1200);
+  scrollToBlock(1, 1200);
+  scrollToBlock(2, 1200);
+  scrollToBlock(3, 1200);
+  scrollToBlock(4, 1200);
+  scrollToBlock(5, 1200);
 
   const updateIndex = (delta) => {
     currentIndex = Math.max(
