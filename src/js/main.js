@@ -18,7 +18,6 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 window.addEventListener('resize', () => {
-  initScroll();
   initHeaderObserver();
   initTextAnimation();
   initFormModal();
@@ -51,10 +50,11 @@ function initScroll() {
 
     const targetBlock = blocks[index];
 
-    // Смещение в зависимости от класса
     const offset = targetBlock.classList.contains('second_block')
       ? targetBlock.getBoundingClientRect().bottom - window.innerHeight
       : targetBlock.getBoundingClientRect().top;
+
+    // const offset = targetBlock.getBoundingClientRect().top;
 
     const targetY = window.pageYOffset + offset;
     const startY = window.pageYOffset;
@@ -65,7 +65,7 @@ function initScroll() {
       const timeElapsed = currentTime - startTime;
       const progress = Math.min(timeElapsed / duration, 1);
 
-      window.scrollTo(0, startY + distance * progress); // Линейное движение
+      window.scrollTo(0, startY + distance * progress);
 
       if (progress < 1) {
         requestAnimationFrame(animateScroll);
