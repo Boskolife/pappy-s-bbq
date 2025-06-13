@@ -4,12 +4,6 @@ window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     document.getElementById('header').classList.add('show');
   }, 1500);
-  setTimeout(() => {
-    document.getElementById('main_title').classList.add('show');
-  }, 1000);
-  setTimeout(() => {
-    document.getElementById('tip').classList.add('show');
-  }, 800);
   initScroll();
   initHeaderObserver();
   initTextAnimation();
@@ -50,11 +44,11 @@ function initScroll() {
 
     const targetBlock = blocks[index];
 
-    const offset = targetBlock.classList.contains('second_block')
-      ? targetBlock.getBoundingClientRect().bottom - window.innerHeight
-      : targetBlock.getBoundingClientRect().top;
+    blocks.forEach((block) => block.classList.remove('active'));
 
-    // const offset = targetBlock.getBoundingClientRect().top;
+    targetBlock.classList.add('active');
+
+    const offset = targetBlock.getBoundingClientRect().top;
 
     const targetY = window.pageYOffset + offset;
     const startY = window.pageYOffset;
