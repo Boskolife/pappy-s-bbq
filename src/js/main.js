@@ -117,29 +117,28 @@ function initHeaderObserver() {
   const blocks = document.querySelectorAll('.scroll_block');
   const lastBlock = document.querySelector('.footer_block');
 
-  let isFooterVisible = false;
+  const visibleBlocks = new Set();
 
-  const observer = new IntersectionObserver(
+  const scrollObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.target === lastBlock) {
-          isFooterVisible = entry.isIntersecting;
-          if (isFooterVisible) {
-            headerPin.classList.remove('active');
-          }
-          return;
-        }
-
-        if (!isFooterVisible) {
           if (entry.isIntersecting) {
+            headerPin.classList.remove('active');
+          } else if (visibleBlocks.size > 0) {
+            headerPin.classList.add('active');
+          }
+        } else {
+          if (entry.isIntersecting) {
+            visibleBlocks.add(entry.target);
+          } else {
+            visibleBlocks.delete(entry.target);
+          }
+
+          if (visibleBlocks.size > 0 && !lastBlock?.isIntersecting) {
             headerPin.classList.add('active');
           } else {
-            const visible = Array.from(blocksToTrack).some(
-              (b) =>
-                b.getBoundingClientRect().top < window.innerHeight &&
-                b.getBoundingClientRect().bottom > 0,
-            );
-            if (!visible) headerPin.classList.remove('active');
+            headerPin.classList.remove('active');
           }
         }
       });
@@ -148,8 +147,9 @@ function initHeaderObserver() {
   );
 
   const blocksToTrack = Array.from(blocks).slice(2);
-  blocksToTrack.forEach((block) => observer.observe(block));
-  if (lastBlock) observer.observe(lastBlock);
+  blocksToTrack.forEach((block) => scrollObserver.observe(block));
+
+  if (lastBlock) scrollObserver.observe(lastBlock);
 }
 
 function initTextAnimation() {
