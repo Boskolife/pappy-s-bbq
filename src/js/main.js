@@ -3,114 +3,125 @@ let isModalOpen = false;
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     document.getElementById('header').classList.add('show');
+  }, 1000);
+  setTimeout(() => {
+    document.getElementById('main_title').classList.add('show');
   }, 1500);
-  initScroll();
+  setTimeout(() => {
+    document.getElementById('tip').classList.add('show');
+  }, 1200);
+  // initScroll();
   initHeaderObserver();
   initTextAnimation();
   initFormModal();
   initVideoObserver();
   initLazyVideo();
+
+  new fullpage('#fullpage', {
+    licenseKey: 'NQUNK-NJHP6-9Q9I9-AKBJI-DRCWJ',
+    scrollingSpeed: 1700,
+  });
 });
 
-function initScroll() {
-  const blocks = document.querySelectorAll('.scroll_block');
-  let currentIndex = 0;
-  let isScrolling = false;
-  let touchStartY = 0;
-  let touchEndY = 0;
+// function initScroll() {
+//   const blocks = document.querySelectorAll('.scroll_block');
+//   let currentIndex = 0;
+//   let isScrolling = false;
+//   let touchStartY = 0;
+//   let touchEndY = 0;
 
-  // const scrollToBlock = (index) => {
-  //   if (index < 0 || index >= blocks.length || isScrolling) return;
+//   // const scrollToBlock = (index) => {
+//   //   if (index < 0 || index >= blocks.length || isScrolling) return;
 
-  //   isScrolling = true;
-  //   blocks[index].scrollIntoView({
-  //     behavior: 'smooth',
-  //     block: blocks[index].classList.contains('second_block') ? 'end' : 'start',
-  //   });
+//   //   isScrolling = true;
+//   //   blocks[index].scrollIntoView({
+//   //     behavior: 'smooth',
+//   //     block: blocks[index].classList.contains('second_block') ? 'end' : 'start',
+//   //   });
 
-  //   setTimeout(() => (isScrolling = false), 1000);
-  // };
+//   //   setTimeout(() => (isScrolling = false), 1000);
+//   // };
 
-  const scrollToBlock = (index, duration = 1000) => {
-    if (index < 0 || index >= blocks.length || isScrolling) return;
+//   const scrollToBlock = (index, duration = 1000) => {
+//     if (index < 0 || index >= blocks.length || isScrolling) return;
 
-    isScrolling = true;
+//     isScrolling = true;
 
-    const targetBlock = blocks[index];
-    blocks.forEach((block) => block.classList.remove('active'));
-    targetBlock.classList.add('active');
+//     const targetBlock = blocks[index];
+//     blocks.forEach((block) => block.classList.remove('active'));
+//     targetBlock.classList.add('active');
 
-    const offset = targetBlock.getBoundingClientRect().top;
+//     const offset = targetBlock.getBoundingClientRect().top;
 
-    const targetY = window.pageYOffset + offset;
-    const startY = window.pageYOffset;
-    const distance = targetY - startY;
-    const startTime = performance.now();
+//     const targetY = window.pageYOffset + offset;
+//     const startY = window.pageYOffset;
+//     const distance = targetY - startY;
+//     const startTime = performance.now();
 
-    const animateScroll = (currentTime) => {
-      const timeElapsed = currentTime - startTime;
-      const progress = Math.min(timeElapsed / duration, 1);
+//     const animateScroll = (currentTime) => {
+//       const timeElapsed = currentTime - startTime;
+//       const progress = Math.min(timeElapsed / duration, 1);
 
-      window.scrollTo(0, startY + distance * progress);
+//       window.scrollTo(0, startY + distance * progress);
 
-      if (progress < 1) {
-        requestAnimationFrame(animateScroll);
-      } else {
-        isScrolling = false;
-      }
-    };
+//       if (progress < 1) {
+//         requestAnimationFrame(animateScroll);
+//       } else {
+//         isScrolling = false;
+//       }
+//     };
 
-    requestAnimationFrame(animateScroll);
-  };
+//     requestAnimationFrame(animateScroll);
+//   };
 
-  scrollToBlock(0, 1200);
-  scrollToBlock(1, 1200);
-  scrollToBlock(2, 1200);
-  scrollToBlock(3, 1200);
-  scrollToBlock(4, 1200);
-  scrollToBlock(5, 1200);
+//   scrollToBlock(0, 1200);
+//   scrollToBlock(1, 1200);
+//   scrollToBlock(2, 1200);
+//   scrollToBlock(3, 1200);
+//   scrollToBlock(4, 1200);
+//   scrollToBlock(5, 1200);
 
-  const updateIndex = (delta) => {
-    currentIndex = Math.max(
-      0,
-      Math.min(currentIndex + delta, blocks.length - 1),
-    );
-    scrollToBlock(currentIndex);
-  };
+//   const updateIndex = (delta) => {
+//     currentIndex = Math.max(
+//       0,
+//       Math.min(currentIndex + delta, blocks.length - 1),
+//     );
+//     scrollToBlock(currentIndex);
+//   };
 
-  window.addEventListener(
-    'wheel',
-    (e) => {
-      if (isModalOpen || isScrolling) {
-        e.preventDefault();
-        return;
-      }
-      updateIndex(e.deltaY > 0 ? 1 : -1);
-    },
-    { passive: false },
-  );
+//   window.addEventListener(
+//     'wheel',
+//     (e) => {
+//       if (isModalOpen || isScrolling) {
+//         e.preventDefault();
+//         return;
+//       }
+//       updateIndex(e.deltaY > 0 ? 1 : -1);
+//     },
+//     { passive: false },
+//   );
 
-  window.addEventListener('keydown', (e) => {
-    if (isModalOpen) return;
-    if (e.key === 'ArrowDown') updateIndex(1);
-    if (e.key === 'ArrowUp') updateIndex(-1);
-  });
+//   window.addEventListener('keydown', (e) => {
+//     if (isModalOpen) return;
+//     if (e.key === 'ArrowDown') updateIndex(1);
+//     if (e.key === 'ArrowUp') updateIndex(-1);
+//   });
 
-  window.addEventListener('touchstart', (e) => {
-    touchStartY = e.changedTouches[0].clientY;
-  });
+//   window.addEventListener('touchstart', (e) => {
+//     touchStartY = e.changedTouches[0].clientY;
+//   });
 
-  window.addEventListener('touchend', (e) => {
-    if (isModalOpen || isScrolling) return;
+//   window.addEventListener('touchend', (e) => {
+//     if (isModalOpen || isScrolling) return;
 
-    touchEndY = e.changedTouches[0].clientY;
-    const deltaY = touchStartY - touchEndY;
+//     touchEndY = e.changedTouches[0].clientY;
+//     const deltaY = touchStartY - touchEndY;
 
-    if (Math.abs(deltaY) > 50) {
-      updateIndex(deltaY > 0 ? 1 : -1);
-    }
-  });
-}
+//     if (Math.abs(deltaY) > 50) {
+//       updateIndex(deltaY > 0 ? 1 : -1);
+//     }
+//   });
+// }
 
 function initHeaderObserver() {
   const headerPin = document.querySelector('.header_pinned');

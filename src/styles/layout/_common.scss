@@ -7,11 +7,6 @@ html {
     scrollbar-width: none;
 }
 
-// html,
-// body {
-//     overflow: hidden;
-// }
-
 .body_lock {
     overflow: hidden;
 }
@@ -48,18 +43,12 @@ html {
     }
 }
 
-.main {
-    height: 100dvh;
-}
-
-
 .scroll_block {
     height: 100dvh;
     position: relative;
 
     &.active {
 
-        h1,
         h2,
         h3,
         h4 {
@@ -69,7 +58,6 @@ html {
             transition-delay: 1s;
         }
 
-        .tip_wrap,
         .divider,
         .inner_video {
             opacity: 1;
@@ -95,27 +83,23 @@ html {
         max-width: 1045px;
         width: calc(100% - 30px);
         margin: 0 auto;
-        padding: 0 30px;
     }
 
     h2 {
         max-width: 923px;
         width: calc(100% - 30px);
         margin: auto;
-        padding: 0 30px;
     }
 
     h3 {
         width: calc(100% - 30px);
         margin: auto;
-        padding: 0 30px;
     }
 
     h4 {
         max-width: 923px;
         width: 100%;
         margin: auto;
-        padding: 0 30px;
     }
 
     .scroll_block_bg {
@@ -211,6 +195,14 @@ html {
         opacity: 0;
     }
 
+    .fp-overflow {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
 }
 
 @keyframes swing {
@@ -242,11 +234,6 @@ html {
 }
 
 .first_block {
-    height: 130vh;
-
-    @include media ("<tablet") {
-        height: 100dvh;
-    }
 
     &::before {
         content: '';
@@ -389,6 +376,16 @@ html {
         a {
             text-decoration: underline;
         }
+    }
+
+}
+
+#main_title,
+#tip {
+    &.show {
+        scale: 1;
+        opacity: 1;
+        transition: all .6s ease;
     }
 
 }
@@ -619,4 +616,8 @@ html {
         max-width: 100%;
         width: 100%;
     }
+}
+
+.fp-watermark {
+    display: none;
 }
