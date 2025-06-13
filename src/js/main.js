@@ -258,3 +258,23 @@ function initLazyVideo() {
     videoObserver.observe(video);
   });
 }
+
+document.querySelector('form').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const firstName = document.getElementById('first_name').value.trim();
+  const lastName = document.getElementById('last_name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+
+  const message = `Hello! I would like to reserve a table.
+Name: ${firstName} ${lastName}
+Email: ${email}
+Phone: ${phone || 'not provided'}`;
+
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappNumber = '50259796771';
+  const whatsappLink = `https://api.whatsapp.com/send/?phone=${whatsappNumber}&text=${encodedMessage}`;
+
+  window.open(whatsappLink, '_blank');
+});
