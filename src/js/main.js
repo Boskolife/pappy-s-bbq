@@ -9,6 +9,7 @@ window.addEventListener('DOMContentLoaded', () => {
   initTextAnimation();
   initFormModal();
   initVideoObserver();
+  initLazyVideo();
 });
 
 function initScroll() {
@@ -36,9 +37,7 @@ function initScroll() {
     isScrolling = true;
 
     const targetBlock = blocks[index];
-
     blocks.forEach((block) => block.classList.remove('active'));
-
     targetBlock.classList.add('active');
 
     const offset = targetBlock.getBoundingClientRect().top;
@@ -118,28 +117,29 @@ function initHeaderObserver() {
   const blocks = document.querySelectorAll('.scroll_block');
   const lastBlock = document.querySelector('.footer_block');
 
-  const visibleBlocks = new Set();
+  let isFooterVisible = false;
 
-  const scrollObserver = new IntersectionObserver(
+  const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.target === lastBlock) {
-          if (entry.isIntersecting) {
+          isFooterVisible = entry.isIntersecting;
+          if (isFooterVisible) {
             headerPin.classList.remove('active');
-          } else if (visibleBlocks.size > 0) {
-            headerPin.classList.add('active');
           }
-        } else {
-          if (entry.isIntersecting) {
-            visibleBlocks.add(entry.target);
-          } else {
-            visibleBlocks.delete(entry.target);
-          }
+          return;
+        }
 
-          if (visibleBlocks.size > 0 && !lastBlock?.isIntersecting) {
+        if (!isFooterVisible) {
+          if (entry.isIntersecting) {
             headerPin.classList.add('active');
           } else {
-            headerPin.classList.remove('active');
+            const visible = Array.from(blocksToTrack).some(
+              (b) =>
+                b.getBoundingClientRect().top < window.innerHeight &&
+                b.getBoundingClientRect().bottom > 0,
+            );
+            if (!visible) headerPin.classList.remove('active');
           }
         }
       });
@@ -148,9 +148,8 @@ function initHeaderObserver() {
   );
 
   const blocksToTrack = Array.from(blocks).slice(2);
-  blocksToTrack.forEach((block) => scrollObserver.observe(block));
-
-  if (lastBlock) scrollObserver.observe(lastBlock);
+  blocksToTrack.forEach((block) => observer.observe(block));
+  if (lastBlock) observer.observe(lastBlock);
 }
 
 function initTextAnimation() {
@@ -211,5 +210,40 @@ function initVideoObserver() {
     if (block.querySelector('video')) {
       observer.observe(block);
     }
+  });
+}
+
+function initLazyVideo() {
+  const lazyVideos = document.querySelectorAll('video');
+
+  const videoObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        const video = entry.target;
+
+        if (entry.isIntersecting) {
+          if (!video.src) {
+            const src = video.getAttribute('data-src');
+            if (src) video.src = src;
+          }
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    },
+    {
+      rootMargin: '0px 0px 200px 0px',
+      threshold: 0.1,
+    },
+  );
+
+  lazyVideos.forEach((video) => {
+    const src = video.getAttribute('src');
+    if (src) {
+      video.setAttribute('data-src', src);
+      video.removeAttribute('src');
+    }
+    videoObserver.observe(video);
   });
 }
