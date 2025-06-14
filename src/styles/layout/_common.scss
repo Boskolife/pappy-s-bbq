@@ -102,6 +102,7 @@ html {
         margin: auto;
     }
 
+    .video,
     .scroll_block_bg {
         position: absolute;
         inset: 0;
@@ -258,15 +259,6 @@ html {
     }
 }
 
-.third_block {
-
-    .scroll_block_bg {
-        @include media ("<phone") {
-            display: block;
-        }
-    }
-}
-
 .other_block {
     display: flex;
     flex-direction: column;
@@ -298,12 +290,6 @@ html {
 
     .primary_btn {
         margin: 0 auto;
-    }
-
-    .scroll_block_bg {
-        @include media ("<phone") {
-            display: block;
-        }
     }
 }
 
