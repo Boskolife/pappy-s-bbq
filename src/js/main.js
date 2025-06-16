@@ -14,7 +14,6 @@ window.addEventListener('DOMContentLoaded', () => {
   initTextAnimation();
   initFormModal();
   initVideoObserver();
-  initLazyVideo();
 
   new fullpage('#fullpage', {
     licenseKey: 'NQUNK-NJHP6-9Q9I9-AKBJI-DRCWJ',
@@ -124,41 +123,6 @@ function initVideoObserver() {
     if (block.querySelector('video')) {
       observer.observe(block);
     }
-  });
-}
-
-function initLazyVideo() {
-  const lazyVideos = document.querySelectorAll('video');
-
-  const videoObserver = new IntersectionObserver(
-    (entries, observer) => {
-      entries.forEach((entry) => {
-        const video = entry.target;
-
-        if (entry.isIntersecting) {
-          if (!video.src) {
-            const src = video.getAttribute('data-src');
-            if (src) video.src = src;
-          }
-          video.play().catch(() => {});
-        } else {
-          video.pause();
-        }
-      });
-    },
-    {
-      rootMargin: '0px 0px 200px 0px',
-      threshold: 0.1,
-    },
-  );
-
-  lazyVideos.forEach((video) => {
-    const src = video.getAttribute('src');
-    if (src) {
-      video.setAttribute('data-src', src);
-      video.removeAttribute('src');
-    }
-    videoObserver.observe(video);
   });
 }
 
