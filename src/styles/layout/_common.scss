@@ -55,6 +55,8 @@ html {
     margin: 0 auto;
     opacity: 0;
     transition: all .6s ease;
+    position: relative;
+    z-index: 2;
 
     @include media ("<tablet") {
         justify-content: center;
@@ -245,6 +247,8 @@ html {
     }
 
     .tip_wrap {
+        position: relative;
+        z-index: 2;
         opacity: 0;
     }
 
@@ -320,11 +324,8 @@ html {
 
 .first_block {
 
-    &_content {
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    .content {
+        height: auto;
         margin-bottom: auto;
     }
 }
