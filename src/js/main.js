@@ -1,5 +1,7 @@
 let isModalOpen = false;
 
+initFullpage();
+
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     document.getElementById('header').classList.add('show');
@@ -9,17 +11,28 @@ window.addEventListener('DOMContentLoaded', () => {
   }, 1500);
   setTimeout(() => {
     document.getElementById('tip').classList.add('show');
+    document.getElementById('tip_2').classList.add('show');
   }, 1200);
   initHeaderObserver();
   initTextAnimation();
   initFormModal();
   initVideoObserver();
+});
 
+async function initFullpage() {
   new fullpage('#fullpage', {
     licenseKey: 'NQUNK-NJHP6-9Q9I9-AKBJI-DRCWJ',
     scrollingSpeed: 1700,
+
+    onLeave: function (origin, destination, direction) {
+      fullpage_api.setAllowScrolling(false);
+
+      setTimeout(() => {
+        fullpage_api.setAllowScrolling(true);
+      }, 1500);
+    },
   });
-});
+}
 
 function initHeaderObserver() {
   const headerPin = document.querySelector('.header_pinned');
@@ -107,7 +120,6 @@ function initVideoObserver() {
 
         if (video) {
           if (entry.isIntersecting) {
-            video.classList.add('entry');
             video.play().catch(() => {});
           } else {
             video.pause();
