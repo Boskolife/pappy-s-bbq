@@ -44,6 +44,73 @@ html {
     }
 }
 
+.header_content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+    max-width: 1400px;
+    width: 100%;
+    padding: 0 15px;
+    margin: 0 auto;
+    opacity: 0;
+    transition: all .6s ease;
+
+    @include media ("<tablet") {
+        justify-content: center;
+    }
+
+    &.show {
+        opacity: 1;
+        transition: all .6s ease;
+    }
+
+    &.active {
+        position: fixed;
+        top: 30px;
+        z-index: 100;
+        opacity: 1;
+        transition: all .6s ease;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+
+        @include media ("<tablet") {
+            gap: 15px;
+        }
+
+        &_img {
+
+            &:nth-child(1) {
+                width: 140px;
+                height: auto;
+
+
+                @include media ("<phone") {
+                    width: 86px;
+                }
+            }
+
+            &:nth-child(2) {
+                width: 108px;
+                height: auto;
+
+                @include media ("<phone") {
+                    width: 66px;
+                }
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+}
+
 .scroll_block {
     height: 100dvh;
     position: relative;
@@ -53,7 +120,7 @@ html {
         position: absolute;
         top: 0;
         left: 0;
-        z-index: -1;
+        z-index: 0;
         width: 100%;
         height: 50%;
         background: linear-gradient(180deg, #000000 4.33%, rgba(0, 0, 0, 0) 100%);
@@ -64,7 +131,7 @@ html {
         position: absolute;
         bottom: 0;
         left: 0;
-        z-index: -1;
+        z-index: 0;
         width: 100%;
         height: 60%;
         background: linear-gradient(0deg, #000000 4.33%, rgba(0, 0, 0, 0) 100%);
@@ -74,7 +141,9 @@ html {
 
         h2,
         h3,
-        h4 {
+        h4,
+        p,
+        .view_btn {
             opacity: 1;
             scale: 1;
             transition: all 2s ease;
@@ -82,18 +151,26 @@ html {
         }
 
         .divider,
-        .inner_video {
+        .inner_video,
+        .tip,
+        .horizontal_divider {
             opacity: 1;
             transition: all 1.5s linear;
             transition-delay: 1s;
         }
-
-        .inner_video {
-            scale: 1;
-        }
     }
 
-    #tip_2 {
+    .tip {
+        opacity: 0;
+        @include adaptive-value("font-size", 45, 25, 1);
+        text-transform: capitalize;
+        display: inline-block;
+        margin-bottom: 14px;
+        text-align: center;
+        transition: all 2s ease;
+    }
+
+    .view_btn {
         opacity: 0;
         scale: 0;
         transition: all 2s ease;
@@ -109,7 +186,7 @@ html {
     }
 
     h1 {
-        max-width: 1045px;
+        max-width: 1000px;
         width: calc(100% - 30px);
         margin: 0 auto;
     }
@@ -126,8 +203,21 @@ html {
         margin: auto;
     }
 
-    .video,
-    .scroll_block_bg {
+    #tip_2 {
+        @include adaptive-value("font-size", 30, 20, 1);
+        display: inline-block;
+        margin-bottom: 14px;
+        transition: all 2s ease;
+    }
+
+    p {
+        opacity: 0;
+        scale: 0;
+        @include adaptive-value("font-size", 33, 16, 1);
+        transition: all 2s ease;
+    }
+
+    .video {
         position: absolute;
         inset: 0;
         width: 100%;
@@ -137,20 +227,6 @@ html {
 
         @include media("<phone") {
             display: none;
-        }
-    }
-
-    .bg_mob {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: -2;
-        display: none;
-
-        @include media ("<phone") {
-            display: block;
         }
     }
 
@@ -181,15 +257,6 @@ html {
         animation: swing 1s infinite linear alternate forwards;
     }
 
-    .inner_video {
-        max-width: 448px;
-        width: calc(100% - 60px);
-        margin: auto;
-        opacity: 0;
-        scale: 0;
-        transition: all 1.5s linear;
-    }
-
     .scroll_block_content {
         width: 100%;
         height: 100dvh;
@@ -214,10 +281,18 @@ html {
         background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.2) 73.56%, rgba(255, 255, 255, 0) 100%);
         background-size: 100% 200%;
         background-position: 0% 0%;
-        animation: shimmer 3s infinite linear forwards;
         margin: 0 auto;
         @include adaptive-value("margin-bottom", 28, 20, 1);
         opacity: 0;
+    }
+
+    .horizontal_divider {
+        opacity: 0;
+        margin: 20px auto;
+        max-width: 296px;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 19.46%, #FFFFFF 48.03%, rgba(255, 255, 255, 0.2) 78.54%, rgba(255, 255, 255, 0) 100%);
     }
 
     .fp-overflow {
@@ -228,99 +303,107 @@ html {
         height: 100%;
     }
 
-}
-
-@keyframes swing {
-    0% {
-        transform: rotate(-15deg);
-    }
-
-    50% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(15deg);
-    }
-}
-
-@keyframes shimmer {
-    0% {
-        background-position: 0% 0%;
-    }
-
-    50% {
-        background-position: 0% 100%;
-    }
-
-    100% {
-        background-position: 0% 0%;
-    }
-}
-
-.first_block {
-
-    &_content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: auto;
-    }
-
-}
-
-.second_block {
-
-    .divider {
-        margin: 20px auto;
-        max-width: 296px;
-        width: 100%;
-        height: 2px;
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 19.46%, #FFFFFF 48.03%, rgba(255, 255, 255, 0.2) 78.54%, rgba(255, 255, 255, 0) 100%);
-    }
-
     .content {
-        max-width: 735px;
-        width: 100%;
         height: 100%;
-        margin: 0 auto;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         padding: 30px 0 70px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+
+}
+
+.first_block {
+
+    &_content {
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: auto;
+    }
+}
+
+.second_block {
+
+    .content {
+        max-width: 735px;
     }
 
     .primary_btn {
         display: block;
         margin: 76px auto 0 auto;
         @include adaptive-value("font-size", 18, 16, 1);
+
+        @include media("<tablet") {
+            margin-top: auto;
+        }
+    }
+}
+
+.third_block {
+
+    .content {
+        max-width: 905px;
+    }
+
+    .text_content {
+        @include media ("<tablet") {
+            margin-bottom: auto;
+        }
+    }
+}
+
+.fourth_block {
+    .content {
+        max-width: 866px;
+
+        .tip {
+            @include adaptive-value("font-size", 30, 24, 1);
+        }
+    }
+}
+
+.fifth_block {
+    .content {
+        max-width: 991px;
+        text-align: center;
+    }
+}
+
+.sixth_block {
+    .content {
+        max-width: 800px;
+    }
+
+    .text_content {
+        @include media ("<tablet") {
+            margin-bottom: auto;
+        }
     }
 }
 
 .last_block {
-    justify-content: center;
-
-    &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        z-index: -1;
-        width: 100%;
-        height: 30%;
-        background: linear-gradient(0deg, #000000 4.33%, rgba(0, 0, 0, 0) 100%);
-    }
 
     .primary_btn {
-        margin: 0 auto;
+        margin-top: auto;
     }
 }
 
 .footer_block {
-    @include adaptive-value("padding-top", 60, 30, 1);
-    @include adaptive-value("padding-bottom", 140, 30, 1);
+    @include adaptive-value("padding-top", 55, 30, 1);
+    padding-bottom: 60px;
     height: auto;
+
+    &::after,
+    &::before {
+        display: none;
+    }
 
     .footer_content_top {
         display: flex;
@@ -344,7 +427,7 @@ html {
                 height: 100%;
 
                 &:nth-child(1) {
-                    max-width: 77px;
+                    max-width: 134px;
                     margin: 0;
 
                     @include media ("<phone") {
@@ -353,7 +436,7 @@ html {
                 }
 
                 &:nth-child(2) {
-                    max-width: 100px;
+                    max-width: 95px;
 
                     @include media ("<phone") {
                         max-width: 111px;
@@ -400,137 +483,6 @@ html {
     }
 }
 
-.header_content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 50px;
-    max-width: 1400px;
-    width: 100%;
-    padding: 0 15px;
-    margin: 0 auto;
-    opacity: 0;
-    transition: all .6s ease;
-
-    @include media ("<tablet") {
-        justify-content: center;
-    }
-
-    &.show {
-        opacity: 1;
-        transition: all .6s ease;
-    }
-
-    &.active {
-        position: fixed;
-        top: 30px;
-        z-index: 100;
-        opacity: 1;
-        transition: all .6s ease;
-    }
-
-
-    .social {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-
-        @include media ("<tablet") {
-            display: none;
-        }
-    }
-
-    .logo {
-        display: flex;
-        align-items: center;
-        gap: 30px;
-
-        &_img {
-
-            &:nth-child(1) {
-                width: 140px;
-                height: auto;
-
-                @include media ("<phone") {
-                    width: 86px;
-                }
-            }
-
-            &:nth-child(2) {
-                width: 108px;
-                height: auto;
-
-                @include media ("<phone") {
-                    width: 66px;
-                }
-            }
-
-            img {
-                width: 100%;
-                height: 100%;
-            }
-        }
-    }
-}
-
-.header_pinned {
-    position: fixed;
-    top: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: -1;
-    max-width: 1400px;
-    width: 100%;
-    padding: 0 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-    opacity: 0;
-    transition: opacity .3s ease-out;
-
-    @include media ("<tablet") {
-        background-color: red;
-    }
-
-    &.active {
-        opacity: 1;
-        transition: opacity .3s ease-in;
-        z-index: 150;
-    }
-
-    .logo {
-        display: flex;
-        align-items: center;
-        gap: 30px;
-
-        &_img {
-
-            &:nth-child(1) {
-                width: 140px;
-                height: auto;
-
-                @include media ("<phone") {
-                    width: 86px;
-                }
-            }
-
-            &:nth-child(2) {
-                width: 108px;
-                height: auto;
-
-                @include media ("<phone") {
-                    width: 66px;
-                }
-            }
-
-            img {
-                width: 100%;
-                height: 100%;
-            }
-        }
-    }
-}
 
 .form_modal {
     position: fixed;

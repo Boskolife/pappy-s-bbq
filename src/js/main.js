@@ -13,7 +13,6 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('tip').classList.add('show');
     document.getElementById('tip_2').classList.add('show');
   }, 1200);
-  initHeaderObserver();
   initTextAnimation();
   initFormModal();
   initVideoObserver();
@@ -34,48 +33,9 @@ async function initFullpage() {
   });
 }
 
-function initHeaderObserver() {
-  const headerPin = document.querySelector('.header_pinned');
-  const blocks = document.querySelectorAll('.scroll_block');
-  const lastBlock = document.querySelector('.footer_block');
-
-  const visibleBlocks = new Set();
-
-  const scrollObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.target === lastBlock) {
-          if (entry.isIntersecting) {
-            headerPin.classList.remove('active');
-          } else if (visibleBlocks.size > 0) {
-            headerPin.classList.add('active');
-          }
-        } else {
-          if (entry.isIntersecting) {
-            visibleBlocks.add(entry.target);
-          } else {
-            visibleBlocks.delete(entry.target);
-          }
-
-          if (visibleBlocks.size > 0 && !lastBlock?.isIntersecting) {
-            headerPin.classList.add('active');
-          } else {
-            headerPin.classList.remove('active');
-          }
-        }
-      });
-    },
-    { threshold: 0.8 },
-  );
-
-  const blocksToTrack = Array.from(blocks).slice(2);
-  blocksToTrack.forEach((block) => scrollObserver.observe(block));
-
-  if (lastBlock) scrollObserver.observe(lastBlock);
-}
-
 function initTextAnimation() {
   const textElements = document.querySelectorAll('.text_content');
+  const buttons = document.querySelectorAll('.view_btn');
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -86,6 +46,7 @@ function initTextAnimation() {
   );
 
   textElements.forEach((el) => observer.observe(el));
+  buttons.forEach((el) => observer.observe(el));
 }
 
 function initFormModal() {
