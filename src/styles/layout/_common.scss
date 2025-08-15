@@ -39,7 +39,7 @@ html {
     }
 
     &:hover {
-        box-shadow: 0px 15px 80px 0px #DAC59499;
+        box-shadow: 0px 15px 40px 0px #dac594;
         transition: all .3s ease-in;
     }
 }
@@ -367,7 +367,11 @@ html {
         max-width: 866px;
 
         .tip {
-            @include adaptive-value("font-size", 30, 24, 1);
+            @include adaptive-value("font-size", 30, 16, 1);
+
+            @include media ("<phone") {
+                max-width: 200px;
+            }
         }
     }
 }
