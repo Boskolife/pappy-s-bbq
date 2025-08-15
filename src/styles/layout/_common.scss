@@ -217,7 +217,7 @@ html {
     p {
         opacity: 0;
         scale: 0;
-        @include adaptive-value("font-size", 33, 16, 1);
+        @include adaptive-value("font-size", 33, 14, 1);
         transition: all 2s ease;
     }
 
