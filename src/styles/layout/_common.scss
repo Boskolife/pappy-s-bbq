@@ -206,6 +206,8 @@ html {
     }
 
     #tip_2 {
+        opacity: 0;
+        scale: 0;
         @include adaptive-value("font-size", 30, 20, 1);
         display: inline-block;
         margin-bottom: 14px;
